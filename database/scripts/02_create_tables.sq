@@ -1,0 +1,328 @@
+USE ElectroHogar;
+GO
+
+-- =========================================
+-- TABLAS
+-- =========================================
+
+CREATE TABLE Brand (
+    id_brand INT NOT NULL,
+    name VARCHAR(100) NULL,
+    country_of_origin VARCHAR(100) NULL,
+    CONSTRAINT Marca_pk PRIMARY KEY (id_brand)
+);
+GO
+
+CREATE TABLE Category (
+    id_category INT NOT NULL,
+    name VARCHAR(100) NULL,
+    CONSTRAINT Categoria_pk PRIMARY KEY (id_category)
+);
+GO
+
+CREATE TABLE Customer (
+    id_customer INT NOT NULL,
+    name VARCHAR(100) NULL,
+    last_name VARCHAR(100) NULL,
+    document_number VARCHAR(20) NULL,
+    email VARCHAR(150) NULL,
+    address VARCHAR(250) NULL,
+    CONSTRAINT cliente_pk PRIMARY KEY (id_customer)
+);
+GO
+
+CREATE TABLE Customer_Phone (
+    id_phone INT NOT NULL,
+    id_customer INT NULL,
+    phone_number VARCHAR(20) NULL,
+    phone_type VARCHAR(20) NULL,
+    Customer_id_customer INT NOT NULL,
+    CONSTRAINT Telefono_Cliente_pk PRIMARY KEY (id_phone)
+);
+GO
+
+CREATE TABLE Delivery (
+    id_delivery INT NOT NULL,
+    id_sale INT NULL,
+    address VARCHAR(250) NULL,
+    scheduled_date DATETIME NULL,
+    status VARCHAR(30) NULL,
+    tracking_code VARCHAR(100) NULL,
+    Sale_id_sale INT NOT NULL,
+    CONSTRAINT Delivery_pk PRIMARY KEY (id_delivery)
+);
+GO
+
+CREATE TABLE Inventory (
+    id_warehouse INT NOT NULL,
+    id_product INT NULL,
+    current_stock INT NULL,
+    minimum_stock INT NULL,
+    Warehouse_id_warehouse INT NOT NULL,
+    Product_id_product INT NOT NULL,
+    CONSTRAINT Inventario_pk PRIMARY KEY (id_warehouse)
+);
+GO
+
+CREATE TABLE Payment (
+    id_payment INT NOT NULL,
+    id_sale INT NULL,
+    payment_date DATETIME NULL,
+    amount DECIMAL(12,2) NULL,
+    payment_method VARCHAR(30) NULL,
+    transaction_code VARCHAR(100) NULL,
+    Sale_id_sale INT NOT NULL,
+    CONSTRAINT Pago_pk PRIMARY KEY (id_payment)
+);
+GO
+
+CREATE TABLE Product (
+    id_product INT NOT NULL,
+    id_category INT NULL,
+    id_brand INT NULL,
+    product_code VARCHAR(30) NULL,
+    name VARCHAR(150) NULL,
+    model VARCHAR(100) NULL,
+    list_price DECIMAL(12,2) NULL,
+    status BIT NULL,
+    warranty_months INT NULL,
+    requires_serial_number BIT NULL,
+    capacity DECIMAL(10,2) NULL,
+    capacity_unit VARCHAR(30) NULL,
+    Category_id_category INT NOT NULL,
+    Brand_id_brand INT NOT NULL,
+    CONSTRAINT Producto_pk PRIMARY KEY (id_product)
+);
+GO
+
+CREATE TABLE Product_Supplier (
+    id_product INT NOT NULL,
+    id_supplier INT NULL,
+    purchase_price DECIMAL(12,2) NULL,
+    delivery_days INT NULL,
+    Product_id_product INT NOT NULL,
+    Supplier_id_supplier INT NOT NULL,
+    CONSTRAINT Product_Supplier_pk PRIMARY KEY (id_product)
+);
+GO
+
+CREATE TABLE Sale (
+    id_sale INT NOT NULL,
+    id_customer INT NULL,
+    sale_date DATETIME NULL,
+    sales_channel VARCHAR(20) NULL,
+    Customer_id_customer INT NOT NULL,
+    CONSTRAINT Sale_pk PRIMARY KEY (id_sale)
+);
+GO
+
+CREATE TABLE Sale_Detail (
+    id_sale_detail INT NOT NULL,
+    id_sale INT NULL,
+    id_product INT NULL,
+    quantity INT NULL,
+    unit_price DECIMAL(12,2) NULL,
+    discount_percentage DECIMAL(5,2) NULL,
+    Sale_id_sale INT NOT NULL,
+    Product_id_product INT NOT NULL,
+    CONSTRAINT Sale_Detail_pk PRIMARY KEY (id_sale_detail)
+);
+GO
+
+CREATE TABLE Sale_Seirial_unit (
+    id_detail INT NOT NULL,
+    id_unit INT NULL,
+    Sale_Detail_id_sale_detail INT NOT NULL,
+    Serialized_Unit_id_unit INT NOT NULL,
+    CONSTRAINT Detalle_Unidad_Serie_pk PRIMARY KEY (id_detail)
+);
+GO
+
+CREATE TABLE Serialized_Unit (
+    id_unit INT NOT NULL,
+    id_product INT NULL,
+    id_warehouse INT NULL,
+    serial_number VARCHAR(100) NULL,
+    status VARCHAR(30) NULL,
+    Product_id_product INT NOT NULL,
+    Warehouse_id_warehouse INT NOT NULL,
+    CONSTRAINT Unidad_Serie_pk PRIMARY KEY (id_unit)
+);
+GO
+
+CREATE TABLE Supplier (
+    id_supplier INT NOT NULL,
+    ruc VARCHAR(11) NULL,
+    business_name VARCHAR(200) NULL,
+    phone VARCHAR(20) NULL,
+    email VARCHAR(150) NULL,
+    CONSTRAINT Proveedor_pk PRIMARY KEY (id_supplier)
+);
+GO
+
+CREATE TABLE Warehouse (
+    id_warehouse INT NOT NULL,
+    name VARCHAR(100) NULL,
+    address VARCHAR(250) NULL,
+    district VARCHAR(100) NULL,
+    province VARCHAR(100) NULL,
+    CONSTRAINT Almacen_pk PRIMARY KEY (id_warehouse)
+);
+GO
+
+CREATE TABLE Warranty (
+    id_warranty INT NOT NULL,
+    id_unit INT NULL,
+    id_detail INT NULL,
+    start_date DATE NULL,
+    end_date DATE NULL,
+    Serialized_Unit_id_unit INT NOT NULL,
+    CONSTRAINT Garantia_pk PRIMARY KEY (id_warranty)
+);
+GO
+
+-- =========================================
+-- CLAVES FORÁNEAS
+-- =========================================
+
+ALTER TABLE Customer_Phone
+ADD CONSTRAINT Customer_Phone_Customer
+FOREIGN KEY (Customer_id_customer)
+REFERENCES Customer (id_customer);
+GO
+
+ALTER TABLE Delivery
+ADD CONSTRAINT Delivery_Sale
+FOREIGN KEY (Sale_id_sale)
+REFERENCES Sale (id_sale);
+GO
+
+ALTER TABLE Inventory
+ADD CONSTRAINT Inventory_Product
+FOREIGN KEY (Product_id_product)
+REFERENCES Product (id_product);
+GO
+
+ALTER TABLE Inventory
+ADD CONSTRAINT Inventory_Warehouse
+FOREIGN KEY (Warehouse_id_warehouse)
+REFERENCES Warehouse (id_warehouse);
+GO
+
+ALTER TABLE Payment
+ADD CONSTRAINT Payment_Sale
+FOREIGN KEY (Sale_id_sale)
+REFERENCES Sale (id_sale);
+GO
+
+ALTER TABLE Product
+ADD CONSTRAINT Product_Brand
+FOREIGN KEY (Brand_id_brand)
+REFERENCES Brand (id_brand);
+GO
+
+ALTER TABLE Product
+ADD CONSTRAINT Product_Category
+FOREIGN KEY (Category_id_category)
+REFERENCES Category (id_category);
+GO
+
+ALTER TABLE Product_Supplier
+ADD CONSTRAINT Product_Supplier_Product
+FOREIGN KEY (Product_id_product)
+REFERENCES Product (id_product);
+GO
+
+ALTER TABLE Product_Supplier
+ADD CONSTRAINT Product_Supplier_Supplier
+FOREIGN KEY (Supplier_id_supplier)
+REFERENCES Supplier (id_supplier);
+GO
+
+ALTER TABLE Sale
+ADD CONSTRAINT Sale_Customer
+FOREIGN KEY (Customer_id_customer)
+REFERENCES Customer (id_customer);
+GO
+
+ALTER TABLE Sale_Detail
+ADD CONSTRAINT Sale_Detail_Product
+FOREIGN KEY (Product_id_product)
+REFERENCES Product (id_product);
+GO
+
+ALTER TABLE Sale_Detail
+ADD CONSTRAINT Sale_Detail_Sale
+FOREIGN KEY (Sale_id_sale)
+REFERENCES Sale (id_sale);
+GO
+
+ALTER TABLE Sale_Seirial_unit
+ADD CONSTRAINT Sale_Seirial_unit_Sale_Detail
+FOREIGN KEY (Sale_Detail_id_sale_detail)
+REFERENCES Sale_Detail (id_sale_detail);
+GO
+
+ALTER TABLE Sale_Seirial_unit
+ADD CONSTRAINT Sale_Seirial_unit_Serialized_Unit
+FOREIGN KEY (Serialized_Unit_id_unit)
+REFERENCES Serialized_Unit (id_unit);
+GO
+
+ALTER TABLE Serialized_Unit
+ADD CONSTRAINT Serialized_Unit_Product
+FOREIGN KEY (Product_id_product)
+REFERENCES Product (id_product);
+GO
+
+ALTER TABLE Serialized_Unit
+ADD CONSTRAINT Serialized_Unit_Warehouse
+FOREIGN KEY (Warehouse_id_warehouse)
+REFERENCES Warehouse (id_warehouse);
+GO
+
+ALTER TABLE Warranty
+ADD CONSTRAINT Warranty_Serialized_Unit
+FOREIGN KEY (Serialized_Unit_id_unit)
+REFERENCES Serialized_Unit (id_unit);
+GO
+
+-- =========================================
+-- SECUENCIAS
+-- =========================================
+
+CREATE SEQUENCE Almacen_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Categoria_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Detalle_Unidad_Serie_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Garantia_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Inventario_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Marca_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Pago_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Producto_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Proveedor_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Telefono_Cliente_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE Unidad_Serie_seq START WITH 1 INCREMENT BY 1;
+GO
+
+CREATE SEQUENCE cliente_seq START WITH 1 INCREMENT BY 1;
+GO
