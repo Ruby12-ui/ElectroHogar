@@ -20,7 +20,9 @@ El diseño lógico permite comprender cómo se organiza la información antes de
 Evidencia del diseño lógico
 
 Figura 1. Diseño lógico de la base de datos ElectroHogar.
+
 <img width="1157" height="653" alt="image" src="https://github.com/user-attachments/assets/ac228240-6e9c-4655-8085-6ab8c98f098a" />
+
 Diseño lógico:
 https://datamodeler.redgate-platform.com/doc/039E9GrOjHUKbN1b4aDNB7mkFWuw5Iy8 
 
@@ -35,7 +37,9 @@ El diseño físico fue desarrollado considerando la estructura necesaria para al
 Evidencia del diseño físico
 
 Figura 2. Diseño físico de la base de datos ElectroHogar.
+
 <img width="1020" height="617" alt="image" src="https://github.com/user-attachments/assets/73e028e0-e7dc-44f1-82f7-dce0d456358c" />
+
 Diseño físico:
 https://datamodeler.redgate-platform.com/doc/RLYIgau7tJDrb1BLxoi3p1kVPn5J5CE8
 
@@ -50,7 +54,9 @@ El diccionario de datos fue elaborado a partir del diseño lógico y físico des
 Evidencia del diccionario de datos
 
 Figura 3. Diccionario de datos de ElectroHogar.
+
 <img width="807" height="649" alt="image" src="https://github.com/user-attachments/assets/efd1ac06-16a9-42ed-b164-67ca49373d40" />
+
 Diccionario de datos:
 https://drive.google.com/file/d/187SSFHKFZwYbCmlFzM2qqN7LHY1m2Awp/view?usp=drive_link
 
@@ -83,6 +89,7 @@ Ruta de montaje: /var/opt/mssql
 Evidencia del volumen Docker
 
 Figura 4. Volumen Docker utilizado para la persistencia de ElectroHogar.
+
 <img width="1518" height="78" alt="image" src="https://github.com/user-attachments/assets/c9127bf0-fc4d-456c-8395-c0ff1e7360cd" />
 
 7. Archivos físicos de la base de datos
@@ -107,6 +114,7 @@ ElectroHogar_log.ldf	Archivo de registro	/var/opt/mssql/data/
 Evidencia de los archivos físicos
 
 Figura 5. Archivos físicos de la base de datos ElectroHogar.
+
 <img width="613" height="106" alt="image" src="https://github.com/user-attachments/assets/cdafe627-0dab-44d8-bc57-5213ffa095e6" />
 
 8. Tamaño y crecimiento de los archivos
@@ -129,6 +137,7 @@ ElectroHogar_log.ldf	8 MB	64 MB
 Evidencia
 
 Figura 6. Tamaño y crecimiento de los archivos físicos.
+
 <img width="1532" height="508" alt="image" src="https://github.com/user-attachments/assets/61c5f573-e1db-4d94-bdef-162e2d9142eb" />
 
 9. Datos implementados
@@ -185,6 +194,7 @@ La tabla Inventory se encuentra actualmente con 0 registros, debido a que no se 
 Evidencia de los registros
 
 Figura 7. Consulta de registros actuales de la base de datos.
+
 <img width="232" height="327" alt="image" src="https://github.com/user-attachments/assets/716073be-8dd9-40bb-895b-962447c691e0" />
 
 11. Contenedor y persistencia
@@ -212,6 +222,7 @@ La combinación del contenedor y el volumen permite ejecutar SQL Server en un en
 Evidencia del contenedor
 
 Figura 8. Contenedor SQL Server de ElectroHogar.
+
 <img width="1212" height="46" alt="image" src="https://github.com/user-attachments/assets/7ff51eac-eb71-4bf8-9a3c-ea5862f6a384" />
 
 12. Repositorio GitHub
@@ -237,5 +248,6 @@ ElectroHogar/
 Evidencia del repositorio
 
 Figura 9. Repositorio GitHub del proyecto ElectroHogar.
+
 <img width="1517" height="620" alt="image" src="https://github.com/user-attachments/assets/c3730e7b-cc95-47d4-b069-c0a2b7d3afa7" />
 
